@@ -9,7 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      iot_devices: {
+        Row: {
+          created_at: string
+          device_id: string
+          device_name: string
+          device_type: string
+          id: string
+          is_active: boolean | null
+          location: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          device_name: string
+          device_type?: string
+          id?: string
+          is_active?: boolean | null
+          location?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          device_name?: string
+          device_type?: string
+          id?: string
+          is_active?: boolean | null
+          location?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sensor_readings: {
+        Row: {
+          created_at: string
+          device_id: string
+          id: string
+          sensor_type: string
+          timestamp: string
+          unit: string
+          value: number
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          id?: string
+          sensor_type: string
+          timestamp?: string
+          unit: string
+          value: number
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          id?: string
+          sensor_type?: string
+          timestamp?: string
+          unit?: string
+          value?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sensor_readings_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "iot_devices"
+            referencedColumns: ["device_id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

@@ -1,146 +1,121 @@
 
 import { useState } from 'react';
-import CropCard from '../components/CropCard';
-import { Plus, Search, Calendar } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Leaf, Activity } from 'lucide-react';
+import IoTDashboard from '@/components/IoTDashboard';
 
 const Crops = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [activeTab, setActiveTab] = useState('crops');
 
-  const crops = [
+  const cropData = [
     {
       id: 1,
       name: 'Tomatoes',
       variety: 'Roma',
-      plantedDate: 'Mar 15, 2024',
-      expectedHarvest: 'Jun 15, 2024',
+      plantedDate: 'March 15, 2024',
+      expectedHarvest: 'June 15, 2024',
       stage: 'Flowering',
-      health: 'excellent' as const,
+      health: 'Excellent',
       progress: 75
     },
     {
       id: 2,
-      name: 'Maize',
+      name: 'Corn',
       variety: 'Sweet Corn',
-      plantedDate: 'Feb 28, 2024',
-      expectedHarvest: 'Jul 10, 2024',
+      plantedDate: 'April 1, 2024',
+      expectedHarvest: 'July 20, 2024',
       stage: 'Vegetative',
-      health: 'good' as const,
+      health: 'Good',
       progress: 60
     },
     {
       id: 3,
-      name: 'Peppers',
-      variety: 'Bell Pepper',
-      plantedDate: 'Apr 5, 2024',
-      expectedHarvest: 'Jul 20, 2024',
-      stage: 'Seedling',
-      health: 'fair' as const,
-      progress: 25
-    },
-    {
-      id: 4,
-      name: 'Carrots',
-      variety: 'Nantes',
-      plantedDate: 'Apr 1, 2024',
-      expectedHarvest: 'Aug 1, 2024',
-      stage: 'Growing',
-      health: 'good' as const,
-      progress: 40
+      name: 'Lettuce',
+      variety: 'Romaine',
+      plantedDate: 'April 10, 2024',
+      expectedHarvest: 'June 1, 2024',
+      stage: 'Mature',
+      health: 'Excellent',
+      progress: 90
     }
   ];
-
-  const filteredCrops = crops.filter(crop => {
-    const matchesSearch = crop.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         crop.variety.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = selectedFilter === 'all' || crop.health === selectedFilter;
-    return matchesSearch && matchesFilter;
-  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Crop Management</h1>
-          <p className="text-gray-600">Monitor and manage all your crops in one place</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Crop & IoT Management</h1>
+          <p className="text-gray-600">Monitor your crops and IoT sensor data</p>
         </div>
 
-        {/* Controls */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-            <div className="flex-1 max-w-md">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search crops..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                />
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full max-w-md grid-cols-2">
+            <TabsTrigger value="crops" className="flex items-center space-x-2">
+              <Leaf className="h-4 w-4" />
+              <span>Crops</span>
+            </TabsTrigger>
+            <TabsTrigger value="iot" className="flex items-center space-x-2">
+              <Activity className="h-4 w-4" />
+              <span>IoT Sensors</span>
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="crops" className="space-y-6">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+              <h2 className="text-xl font-semibold mb-4">Your Crops</h2>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Crop</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Variety</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Planted</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Expected Harvest</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Stage</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Health</th>
+                      <th className="text-left py-3 px-4 font-medium text-gray-700">Progress</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cropData.map((crop) => (
+                      <tr key={crop.id} className="border-b border-gray-100 hover:bg-gray-50">
+                        <td className="py-3 px-4 font-medium text-gray-900">{crop.name}</td>
+                        <td className="py-3 px-4 text-gray-600">{crop.variety}</td>
+                        <td className="py-3 px-4 text-gray-600">{crop.plantedDate}</td>
+                        <td className="py-3 px-4 text-gray-600">{crop.expectedHarvest}</td>
+                        <td className="py-3 px-4 text-gray-600">{crop.stage}</td>
+                        <td className="py-3 px-4">
+                          <span className={`px-2 py-1 text-xs rounded-full ${
+                            crop.health === 'Excellent' ? 'bg-green-100 text-green-600' :
+                            crop.health === 'Good' ? 'bg-blue-100 text-blue-600' :
+                            'bg-yellow-100 text-yellow-600'
+                          }`}>
+                            {crop.health}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-16 bg-gray-200 rounded-full h-2">
+                              <div 
+                                className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${crop.progress}%` }}
+                              ></div>
+                            </div>
+                            <span className="text-sm text-gray-600">{crop.progress}%</span>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
+          </TabsContent>
 
-            <div className="flex items-center space-x-4">
-              <select
-                value={selectedFilter}
-                onChange={(e) => setSelectedFilter(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-              >
-                <option value="all">All Health Status</option>
-                <option value="excellent">Excellent</option>
-                <option value="good">Good</option>
-                <option value="fair">Fair</option>
-                <option value="poor">Poor</option>
-              </select>
-
-              <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors flex items-center space-x-2">
-                <Plus className="h-4 w-4" />
-                <span>Add New Crop</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Crop Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {filteredCrops.map((crop) => (
-            <CropCard key={crop.id} crop={crop} />
-          ))}
-        </div>
-
-        {filteredCrops.length === 0 && (
-          <div className="text-center py-12">
-            <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-              <Search className="h-8 w-8 text-gray-400" />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No crops found</h3>
-            <p className="text-gray-500">Try adjusting your search or filter criteria</p>
-          </div>
-        )}
-
-        {/* Planting Calendar */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <div className="flex items-center mb-6">
-            <Calendar className="h-5 w-5 text-green-600 mr-2" />
-            <h2 className="text-xl font-semibold text-gray-900">Planting Calendar</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-green-50 rounded-lg p-4">
-              <h3 className="font-medium text-green-800 mb-2">This Week</h3>
-              <p className="text-sm text-green-600">Perfect time to plant lettuce and spinach</p>
-            </div>
-            <div className="bg-blue-50 rounded-lg p-4">
-              <h3 className="font-medium text-blue-800 mb-2">Next Week</h3>
-              <p className="text-sm text-blue-600">Consider planting beans and cucumbers</p>
-            </div>
-            <div className="bg-yellow-50 rounded-lg p-4">
-              <h3 className="font-medium text-yellow-800 mb-2">This Month</h3>
-              <p className="text-sm text-yellow-600">Prepare soil for summer crops</p>
-            </div>
-          </div>
-        </div>
+          <TabsContent value="iot">
+            <IoTDashboard />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
