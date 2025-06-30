@@ -12,6 +12,22 @@ interface Device {
   is_active: boolean;
 }
 
+interface Recommendation {
+  id: string;
+  title: string;
+  message: string;
+  priority: 'low' | 'medium' | 'high';
+  category: string;
+  ai_confidence?: number;
+  is_read: boolean;
+  is_dismissed: boolean;
+  created_at: string;
+  expires_at?: string;
+  device_id?: string;
+  user_id: string;
+  sensor_data?: any;
+}
+
 const AIRecommendationsPanel = () => {
   const [selectedDevice, setSelectedDevice] = useState<string>('');
   const { toast } = useToast();
@@ -44,17 +60,17 @@ const AIRecommendationsPanel = () => {
         .limit(20);
       
       if (error) throw error;
-      return data;
+      return data as Recommendation[];
     }
   });
 
   // Generate AI recommendations mutation
   const generateRecommendations = useMutation({
     mutationFn: async (deviceId: string) => {
-      const response = await fetch(`${supabase.supabaseUrl}/functions/v1/ai-recommendations`, {
+      const response = await fetch('https://bpioxfqsuxvgbdyjjbhi.supabase.co/functions/v1/ai-recommendations', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${supabase.supabaseKey}`,
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwaW94ZnFzdXh2Z2JkeWpqYmhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyMTI4MTIsImV4cCI6MjA2Njc4ODgxMn0.zwaFKxowIWoVoNg8PsDS5-9os6oP-4i3SrMsZqTqwkA`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ deviceId, forceGenerate: true })
