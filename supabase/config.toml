@@ -3,3 +3,6 @@ project_id = "bpioxfqsuxvgbdyjjbhi"
 
 [functions.sensor-data]
 verify_jwt = false
+
+[functions.ai-recommendations]
+verify_jwt = false

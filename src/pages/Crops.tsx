@@ -1,8 +1,9 @@
 
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Leaf, Activity } from 'lucide-react';
+import { Leaf, Activity, Brain } from 'lucide-react';
 import IoTDashboard from '@/components/IoTDashboard';
+import AIRecommendationsPanel from '@/components/AIRecommendationsPanel';
 
 const Crops = () => {
   const [activeTab, setActiveTab] = useState('crops');
@@ -45,11 +46,11 @@ const Crops = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Crop & IoT Management</h1>
-          <p className="text-gray-600">Monitor your crops and IoT sensor data</p>
+          <p className="text-gray-600">Monitor your crops, IoT sensors, and get AI-powered recommendations</p>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full max-w-md grid-cols-2">
+          <TabsList className="grid w-full max-w-lg grid-cols-3">
             <TabsTrigger value="crops" className="flex items-center space-x-2">
               <Leaf className="h-4 w-4" />
               <span>Crops</span>
@@ -57,6 +58,10 @@ const Crops = () => {
             <TabsTrigger value="iot" className="flex items-center space-x-2">
               <Activity className="h-4 w-4" />
               <span>IoT Sensors</span>
+            </TabsTrigger>
+            <TabsTrigger value="ai" className="flex items-center space-x-2">
+              <Brain className="h-4 w-4" />
+              <span>AI Recommendations</span>
             </TabsTrigger>
           </TabsList>
 
@@ -114,6 +119,10 @@ const Crops = () => {
 
           <TabsContent value="iot">
             <IoTDashboard />
+          </TabsContent>
+
+          <TabsContent value="ai">
+            <AIRecommendationsPanel />
           </TabsContent>
         </Tabs>
       </div>

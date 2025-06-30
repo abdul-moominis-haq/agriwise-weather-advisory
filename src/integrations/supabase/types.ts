@@ -45,6 +45,62 @@ export type Database = {
         }
         Relationships: []
       }
+      recommendations: {
+        Row: {
+          ai_confidence: number | null
+          category: string
+          created_at: string
+          device_id: string | null
+          expires_at: string | null
+          id: string
+          is_dismissed: boolean | null
+          is_read: boolean | null
+          message: string
+          priority: string
+          sensor_data: Json | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          ai_confidence?: number | null
+          category: string
+          created_at?: string
+          device_id?: string | null
+          expires_at?: string | null
+          id?: string
+          is_dismissed?: boolean | null
+          is_read?: boolean | null
+          message: string
+          priority: string
+          sensor_data?: Json | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          ai_confidence?: number | null
+          category?: string
+          created_at?: string
+          device_id?: string | null
+          expires_at?: string | null
+          id?: string
+          is_dismissed?: boolean | null
+          is_read?: boolean | null
+          message?: string
+          priority?: string
+          sensor_data?: Json | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recommendations_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "iot_devices"
+            referencedColumns: ["device_id"]
+          },
+        ]
+      }
       sensor_readings: {
         Row: {
           created_at: string
