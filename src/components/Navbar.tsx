@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/AuthContext';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
@@ -65,7 +65,7 @@ const Navbar = () => {
                   <span className="hidden sm:block">{user.email}</span>
                 </Link>
                 <button
-                  onClick={signOut}
+                  onClick={logout}
                   className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors text-sm"
                 >
                   Sign Out
