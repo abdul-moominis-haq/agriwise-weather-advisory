@@ -10,7 +10,7 @@ const Navbar = () => {
   const { user, logout } = useAuth();
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: Home },
+    { name: 'Dashboard', href: '/dashboard', icon: Home },
     { name: 'Crops & IoT', href: '/crops', icon: Leaf },
     { name: 'Weather & AI', href: '/weather', icon: Cloud },
     { name: 'Community', href: '/community', icon: Users },
@@ -24,7 +24,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="/dashboard" className="flex items-center space-x-2">
               <div className="bg-green-500 p-2 rounded-lg">
                 <Leaf className="h-6 w-6 text-white" />
               </div>
